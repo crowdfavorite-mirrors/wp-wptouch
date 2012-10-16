@@ -257,6 +257,12 @@ if ( isset( $_POST['submit'] ) ) {
 	} else {
 		$a['ad_service'] = 'none';	
 	}	
+	
+	if ( isset( $_POST['show_powered_by'] ) ) {
+		$a['show_powered_by'] = 1;
+	} else {
+		$a['show_powered_by'] = 0;
+	}
 
 	foreach ($_POST as $k => $v) {
 		if ($k == 'enable_main_title') {
@@ -272,7 +278,7 @@ if ( isset( $_POST['submit'] ) ) {
 	
 	$a['header-title'] = $_POST['header-title'];
 	if (!isset($a['header-title']) || (isset($a['header-title']) && strlen($a['header-title']) == 0)) {
-		$a['header-title'] = get_bloginfo('title');
+		$a['header-title'] = get_bloginfo('name');
 	}
 	
 	$a['custom-footer-msg'] = $_POST['custom-footer-msg'];

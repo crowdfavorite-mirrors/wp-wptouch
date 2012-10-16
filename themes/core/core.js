@@ -22,13 +22,16 @@ $wpt.fn.wptouchFadeToggle = function( speed, easing, callback ) {
 function wptouch_switch_confirmation( e ) {
 	if ( document.cookie && document.cookie.indexOf( 'wptouch_switch_toggle' ) > -1 ) {
 	// just switch
-		$wpt( 'a#switch-link' ).toggleClass( 'offimg' );
-		setTimeout('switch_delayer()', 1250 ); 
+		$wpt( '#switch span' ).removeClass( 'active' );
+		$wpt( '.off' ).addClass( 'active' );
+		setTimeout('switch_delayer()', 500 ); 
 	} else {
 	// ask first
 	    if ( confirm( "Switch to regular view? \n \n You can switch back again in the footer." ) ) {
-			$wpt( 'a#switch-link' ).toggleClass( 'offimg' );
-			setTimeout( 'switch_delayer()', 1350 ); 
+		$wpt( '#switch span' ).removeClass( 'active' );
+		$wpt( '.off' ).addClass( 'active' );
+			setTimeout( 'switch_delayer()', 500 );
+			
 		} else {
 	        e.preventDefault();
 	        e.stopImmediatePropagation();
@@ -66,8 +69,9 @@ function doWPtouchReady() {
 		$wpt( '#headerbar-menu a' ).toggleClass( 'open' );
 	});
 
-	$wpt( 'a#searchopen, #wptouch-search-inner a' ).bind( touchStartOrClick, function( e ){	
+	$wpt( 'a#searchopen, #wptouch-search-inner a' ).click( function(){	
 		$wpt( '#wptouch-search' ).wptouchFadeToggle( 350 );
+		$wpt( '#s' ).focus();		
 	});
 	
 	$wpt( 'a#prowlopen' ).bind( touchStartOrClick, function( e ){	
@@ -111,17 +115,27 @@ function doWPtouchReady() {
 		"video"
 	];
 	
-	var allVideos = $wpt( '.post' ).find(videoSelectors.join(','));
+	var allVideos = $wpt( '.post' ).find( videoSelectors.join(',') );
 	
 	$wpt( allVideos ).each( function(){ 
 		$wpt( this ).unwrap().addClass( 'wptouch-videos' ).parentsUntil( '.content', 'div:not(.fluid-width-video-wrapper), span' ).removeAttr( 'width' ).removeAttr( 'height' ).removeAttr( 'style' );
 	});
 
 	$wpt( '.post' ).fitVids();
+	
+	$wpt( '.post-arrow' ).live( touchStartOrClick, function( e ){
+		$wpt( this ).toggleClass( 'post-arrow-down' );
+		$wpt( this ).parents( '.post' ).find( '.mainentry' ).wptouchFadeToggle(500);
+	});
 
+	$wpt( 'span.off' ).bind( 'click', function(){
+		wptouch_switch_confirmation();
+	});
+	
 }
 
 $wpt( document ).ready( function() { doWPtouchReady(); } );
+
 
 /*global jQuery */
 /*! 

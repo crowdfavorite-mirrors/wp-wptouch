@@ -3,8 +3,8 @@ Contributors: bravenewcode, duanestorey, dalemugford
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=paypal%40bravenewcode%2ecom&item_name=WPtouch%20Beer%20Fund&no_shipping=0&no_note=1&tax=0&currency_code=CAD&lc=CA&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: wptouch, iphone, ipod, theme, apple, mac, bravenewcode, ajax, mobile, android, blackberry, smartphone, 
 Requires at least: 3.1
-Tested up to: 3.3.2
-Stable tag: 1.9.40
+Tested up to: 3.4.2
+Stable tag: 1.9.5.3
 
 WPtouch: A simple, powerful and elegant mobile theme for your website.
 
@@ -21,13 +21,55 @@ The theme also includes the ability for visitors to switch between *WPtouch* vie
 *Now Available: WPtouch Pro!*
 Totally re-written top to bottom, with a slew of new features like more style, color and branding customizations, themes, 10 languages, more advertising options, Web-Application mode, and more!
 
-Awesome iPad theme support is now available in WPtouch Pro, now at version 2.6!
+Awesome iPad theme support is now available in WPtouch Pro, now at version 2.7!
 
 For more information visit http://www.bravenewcode.com/wptouch-pro
 
 'WPtouch' and 'WPtouch Pro' are trademarks of BraveNewCode Inc.
 
 == Changelog ==
+
+= Version 1.9.5.3 =
+
+* Fixed: Enhanced security for Multisite installations
+
+= Version 1.9.5.2 =
+
+* Added: Ability to select german language
+* Changed: 'Powered by WPtouch' in footer is now off by default
+
+= Version 1.9.5.1 =
+
+* Fixed: Issue with menu sorting by ID
+* Fixed: Broken link for iPhone/iPad icon generator
+
+= Version 1.9.5 =
+
+* Updated: Compatibility with WordPress 3.4.1
+* Updated: Admin css with new prefixes for better cross-browser support, other improvements
+* Updated: Switch link redirect now redirects to current url even if a WPtouch homepage redirect is set
+* Updated: Added HP TouchPad and Nexus 7 to the excluded tablets list (also includes Xoom and Galaxy Tab)
+* Updated: Added a variety of new Blackberry OS7 devices agents (Bold, Touch and Curve)
+* Changed: Cleaned up and removed unused/old assets
+* Fixed: Depreciated references to options (replaced with home_url() and site_url())
+* Fixed: issue with search field
+* Fixed: Issue where the new switch link caused white box
+* Fixed: PHP warnings regarding detection of https, depreciated calls
+
+= Version 1.9.42 =
+
+* Added: 8 new background options, updated default background
+* Updated: Twitter and Facebook share logos
+* Updated: Changed drop menu arrow to text button
+* Updated: Enhanced usability of search
+* Updated: Changed mobile switch link to CSS only
+* Updated: Prefixes for Opera, Mozilla browsers
+* Updated: General styling updates
+
+= Version 1.9.41 =
+
+* Added: Italian language translation (thanks Roberto Gallerani)
+* Added: Turkish language translation
 
 = Version 1.9.40 =
 
@@ -734,10 +776,10 @@ For more information visit http://www.bravenewcode.com/wptouch-pro
 
 == Installation ==
 
-= 2.8 and Older =
-Sorry, we do not officially support installations on WordPress 2.9 or older. You can use WPtouch versions 1.9.3.4 or previous on these installations, however.
+= 3.0 and Older =
+Sorry, we do not officially support installations on WordPress 3.0 or older.
 
-= 2.9, 3.0+ =
+= 3.1+ =
 You can install *WPtouch* directly from the WordPress admin! Visit the *Plugins - > Add New* page and search for 'WPtouch'. Click to install.
 
 Once installed and activated visit the WPtouch admin page (*Settings/WPtouch*) to customize your WPtouch installation's appearance.

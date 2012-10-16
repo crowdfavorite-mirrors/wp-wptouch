@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPtouch
 Plugin URI: http://wordpress.org/extend/plugins/wptouch/
-Version: 1.9.40
+Version: 1.9.5.3
 Description: A plugin which formats your site with a mobile theme for visitors on Apple <a href="http://www.apple.com/iphone/">iPhone</a> / <a href="http://www.apple.com/ipodtouch/">iPod touch</a>, <a href="http://www.android.com/">Google Android</a>, <a href="http://www.blackberry.com/">Blackberry Storm and Torch</a>, <a href="http://www.palm.com/us/products/phones/pre/">Palm Pre</a> and other touch-based smartphones.
 Author: BraveNewCode Inc.
 Author URI: http://www.bravenewcode.com
@@ -28,7 +28,7 @@ License: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.ht
 load_plugin_textdomain( 'wptouch', false, dirname( plugin_basename( __FILE__ ) ) );
 
 global $bnc_wptouch_version;
-$bnc_wptouch_version = '1.9.40';
+$bnc_wptouch_version = '1.9.5.3';
 
 require_once( 'include/plugin.php' );
 require_once( 'include/compat.php' );
@@ -67,7 +67,7 @@ $wptouch_defaults = array(
 	'post-cal-thumb' =>'calendar-icons',
 	'h2-font' =>'Helvetica Neue',
 	'style-text-justify' => 'left-justified',
-	'style-background' => 'classic-wptouch-bg',
+	'style-background' => 'low-contrast-linen-wptouch-bg',
 	'style-icon' => 'glossy-icon',
 	'enable-regular-default' => false,
 	'excluded-cat-ids' => '',
@@ -87,7 +87,8 @@ $wptouch_defaults = array(
 	'wptouch-language' => 'auto',
 	'enable-twenty-eleven-footer' => 0,
 	'enable-fixed-header' => false,
-	'ad_service' => 'adsense'
+	'ad_service' => 'adsense',
+	'show_powered_by' => false
 );
 
 function wptouch_get_plugin_dir_name() {
@@ -143,7 +144,7 @@ function wptouch_init() {
 			die( 'Security Failure' );
 		} else {
 			wptouch_delete_icon( $_GET['delete_icon'] );
-			header( 'Location: ' . get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=wptouch/wptouch.php#available_icons' );
+			header( 'Location: ' . site_url() . '/wp-admin/options-general.php?page=wptouch/wptouch.php#available_icons' );
 			die;
 		}
 	}
@@ -246,7 +247,7 @@ function wptouch_admin_enqueue_files() {
 // WPtouch Admin StyleSheets
 function wptouch_admin_files() {		
 	if ( isset( $_GET['page'] ) && $_GET['page'] == 'wptouch/wptouch.php' ) {
-		echo "<script type='text/javascript' src='" . get_bloginfo( "url" ) . "/?wptouch-ajax=js'></script>\n";
+		echo "<script type='text/javascript' src='" . home_url() . "/?wptouch-ajax=js'></script>\n";
 		echo "<link rel='stylesheet' type='text/css' href='" . compat_get_plugin_url( 'wptouch' ) . "/admin-css/wptouch-admin.css' />\n";
 		echo "<link rel='stylesheet' type='text/css' href='" . compat_get_plugin_url( 'wptouch' ) . "/admin-css/bnc-global.css' />\n";
 		echo "<link rel='stylesheet' type='text/css' href='" . compat_get_plugin_url( 'wptouch' ) . "/admin-css/bnc-compressed-global.css' />\n";
@@ -258,7 +259,7 @@ function wptouch_ajax_handler() {
 		switch( $_GET['wptouch-ajax'] ) {
 			case 'js':
 				header( 'Content-type: text/javascript' );
-				$url = rtrim( get_bloginfo('wpurl'), '/' ) . '/';
+				$url = rtrim( site_url(), '/' ) . '/';
 				echo "var wptouchBlogUrl = '" . $url . "';";
 				break;		
 			case 'news':
@@ -275,8 +276,10 @@ add_action( 'init', 'wptouch_ajax_handler' );
 
 function bnc_wptouch_get_exclude_user_agents() {
 	$user_agents = array(
-        'SCH-I800',
-        'Xoom'	
+	'SCH-I800',				// Samsung Galaxy Tab
+	'Xoom',						// Motorola Xoom tablet
+	'P160U'	,					// HP TouchPad
+	'Nexus 7'					// Nexus 7
 	);
 	
 	return apply_filters( 'wptouch_exclude_user_agents', $user_agents );
@@ -284,23 +287,35 @@ function bnc_wptouch_get_exclude_user_agents() {
 
 function bnc_wptouch_get_user_agents() {
 	$useragents = array(		
-		"iPhone",  				 	// Apple iPhone
-		"iPod", 						// Apple iPod touch
-		"incognito", 				// Other iPhone browser
-		"webmate", 				// Other iPhone browser
-		"Android", 			 	// 1.5+ Android
-		"dream", 				 	// Pre 1.5 Android
-		"CUPCAKE", 			 	// 1.5+ Android
-		"blackberry9500",	 	// Storm
-		"blackberry9530",	 	// Storm
-		"blackberry9520",	 	// Storm v2
-		"blackberry9550",	 	// Storm v2
-		"blackberry 9800",	// Torch
-		"webOS",					// Palm Pre Experimental
-		"s8000", 				 	// Samsung Dolphin browser
-		"bada",				 		// Samsung Dolphin browser
-		"Googlebot-Mobile"	// the Google mobile crawler
-
+	'iPhone', 					// iPhone
+	'iPod', 						// iPod touch
+	'incognito', 				// iPhone alt browser
+	'webmate', 				// iPhone alt browser
+	'Android', 					// Android
+	'dream', 					// Android
+	'CUPCAKE', 				// Android
+	'froyo', 						// Android
+	'BlackBerry9500', 		// Storm 1
+	'BlackBerry9520', 		// Storm 1
+	'BlackBerry9530', 		// Storm 2
+	'BlackBerry9550', 		// Storm 2
+	'BlackBerry 9800', 	// Torch
+	'BlackBerry 9850', 	// Torch 2
+	'BlackBerry 9860', 	// Torch 2
+	'BlackBerry 9780', 	// Bold 3
+	'BlackBerry 9790', 	// Bold Touch
+	'BlackBerry 9900', 	// Bold
+	'BlackBerry 9930', 	// Bold
+	'BlackBerry 9350', 	// Curve
+	'BlackBerry 9360', 	// Curve
+	'BlackBerry 9370', 	// Curve
+	'BlackBerry 9380', 	// Curve
+	'BlackBerry 9810', 	// Torch	
+	'webOS',					// Palm Pre/Pixi
+	's8000',					// Samsung s8000
+	'bada',						// Samsung Bada Phone
+	'Googlebot-Mobile',	// Google's mobile Crawler
+	'AdsBot-Google'		// Google's Ad Bot Crawler
 	);
 	
 	$settings = bnc_wptouch_get_settings();
@@ -514,7 +529,7 @@ class WPtouchPlugin {
 			$this->wptouch_send_prowl_message( $title, $prowl_message );
 		}		   
 	   
-	   if ( $this->applemobile && $this->desired_view == 'mobile' ) {
+	   if ( ( $this->applemobile && $this->desired_view == 'mobile' ) && !isset( $_GET['wptouch_redirect'] ) ) {
 			$version = (float)get_bloginfo('version');
 			$is_front = 0;
 			$is_front = (is_front_page() && (bnc_get_selected_home_page() > 0));
@@ -528,7 +543,7 @@ class WPtouchPlugin {
 	}
 	
 	function bnc_check_switch_redirect() {
-		if ( isset( $_GET[ 'wptouch_view'] ) && isset( $_GET['wptouch_redirect'] ) ) {
+		if ( isset( $_GET['wptouch_redirect'] ) ) {
 			if ( isset( $_GET['wptouch_redirect_nonce'] ) ) {
 				$nonce = $_GET['wptouch_redirect_nonce'];
 				if ( !wp_verify_nonce( $nonce, 'wptouch_redirect' ) ) {
@@ -536,7 +551,7 @@ class WPtouchPlugin {
 					die;
 				}
 
-				$protocol = ( $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
+				$protocol = ( !empty($_SERVER['HTTPS']) ) ? 'https://' : 'http://';
 				$redirect_location = $protocol . $_SERVER['SERVER_NAME'] . $_GET['wptouch_redirect'];
 		
 				header( 'Location: ' . $redirect_location );
@@ -681,11 +696,16 @@ function bnc_is_iphone() {
 function wptouch_switch() {
 	global $wptouch_plugin;
 	if ( bnc_is_iphone() && $wptouch_plugin->desired_view == 'normal' ) {
-		echo '<div id="wptouch-switch-link">';
-		_e( "Mobile Theme", "wptouch" ); 
-		echo "<a onclick=\"document.getElementById('switch-on').style.display='block';document.getElementById('switch-off').style.display='none';\" href=\"" . get_bloginfo('url') . "/?wptouch_view=mobile&wptouch_redirect_nonce=" . wp_create_nonce( 'wptouch_redirect' ) . "&wptouch_redirect=" . urlencode( $_SERVER['REQUEST_URI'] ) . "\"><img id=\"switch-on\" src=\"" . compat_get_plugin_url( 'wptouch' ) . "/themes/core/core-images/on.jpg\" alt=\"on switch image\" class=\"wptouch-switch-image\" style=\"display:none\" /><img id=\"switch-off\" src=\"" . compat_get_plugin_url( 'wptouch' ) .  "/themes/core/core-images/off.jpg\" alt=\"off switch image\" class=\"wptouch-switch-image\" /></a>";
- 		echo '</div>';
+		echo '<div id="switch">';
+		_e( "Mobile Theme", "wptouch" );
+		echo '<div>';
+		echo "<a id='switch-link' onclick=\"var addActive = document.getElementById('switch-on'); addActive.className = addActive.className + ' active';var removeActive = document.getElementById('switch-off'); removeActive.className = ' ';\" href=\"" . home_url() . "/?wptouch_view=mobile&wptouch_redirect_nonce=" . wp_create_nonce( 'wptouch_redirect' ) . "&wptouch_redirect=" . urlencode( $_SERVER['REQUEST_URI'] ) . "\">";
+		echo '<span id="switch-on">ON</span>';
+		echo '<span id="switch-off" class="active">OFF</span>';
+		echo '</a>';
+ 		echo '</div></div>';
 	}
+	
 }
   
 function bnc_options_menu() {
@@ -912,7 +932,12 @@ function bnc_wp_touch_get_pages() {
 	$results = false;
 
 	if ( count( $keys ) > 0 ) {
-		$query = "SELECT * from {$table_prefix}posts where ID in (" . implode(',', $keys) . ") and post_status = 'publish' order by post_title asc";
+		if ( isset( $ids['sort-order'] ) && $ids['sort-order'] == 'page' ) {
+			$query = "SELECT * from {$table_prefix}posts WHERE ID IN (" . implode(',', $keys) . ") AND post_status = 'publish' ORDER BY ID ASC";
+		} else {
+			$query = "SELECT * from {$table_prefix}posts WHERE ID IN (" . implode(',', $keys) . ") AND post_status = 'publish' ORDER BY post_title ASC";
+		}
+		
 		$results = $wpdb->get_results( $query, ARRAY_A );
 	}
 
@@ -930,7 +955,7 @@ function bnc_wp_touch_get_pages() {
 		}
 	}
 
-	if (isset($ids['sort-order']) && $ids['sort-order'] == 'page') {
+	if ( isset($ids['sort-order']) && $ids['sort-order'] == 'page' ) {
 		return $menu_order;
 	} else {
 		return $a;
@@ -1004,6 +1029,11 @@ function bnc_get_icon_style() {
 	return $v['icon-style'];
 }
 
+function bnc_wptouch_can_show_powered_by() {
+	$settings = bnc_wp_touch_get_menu_pages();
+	return $settings['show_powered_by'];
+}
+
 function bnc_get_wptouch_custom_lang_files() {
 	$lang_files = array();
 	
@@ -1031,13 +1061,13 @@ require_once( 'include/icons.php' );
   
 function bnc_wp_touch_page() {
 	if (isset($_POST['submit'])) {
-		echo('<div class="wrap"><div id="bnc-global"><div id="wptouchupdated" style="display:none"><p class="saved"><span>');
-		echo __( "Settings saved", "wptouch");
+		echo('<div class="wrap"><div id="bnc-global"><div id="wptouchupdated"><p class="saved"><span>');
+		echo __( "Settings saved!", "wptouch");
 		echo('</span></p></div>');
 		} 
 	elseif (isset($_POST['reset'])) {
-		echo('<div class="wrap"><div id="bnc-global"><div id="wptouchupdated" style="display:none"><p class="reset"><span>');
-		echo __( "Defaults restored", "wptouch");
+		echo('<div class="wrap"><div id="bnc-global"><div id="wptouchupdated"><p class="reset"><span>');
+		echo __( "Defaults restored.", "wptouch");
 		echo('</span></p></div>');
 	} else {
 		echo('<div class="wrap"><div id="bnc-global">');
@@ -1056,7 +1086,6 @@ function bnc_wp_touch_page() {
 		<?php require_once( 'html/ads-stats-area.php' ); ?>
 		<?php require_once( 'html/icon-area.php' ); ?>
 		<?php require_once( 'html/page-area.php' ); ?>
-		<?php // require_once( 'html/plugin-compat-area.php' ); ?>		
 		<input type="hidden" name="wptouch-nonce" value="<?php echo wp_create_nonce( 'wptouch-nonce' ); ?>" />
 		<input type="submit" name="submit" value="<?php _e('Save Options', 'wptouch' ); ?>" id="bnc-button" class="button-primary" />
 	</form>
