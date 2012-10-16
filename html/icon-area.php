@@ -4,7 +4,7 @@
 jQuery(document).ready(function(jQuery) {
 var button = jQuery('#upload-icon'), interval;
 	new AjaxUpload(button, {
-		action: '<?php bloginfo( 'wpurl' ); ?>/?wptouch=upload',
+		action: '<?php site_url(); ?>/?wptouch=upload',
 		autoSubmit: true,
 		name: 'submitted_file',
 		onSubmit: function(file, extension) { jQuery("#upload_progress").show(); },
@@ -27,11 +27,11 @@ var button = jQuery('#upload-icon'), interval;
 				<h4><?php _e( "Adding Icons", "wptouch" ); ?></h4>
 				<p><?php _e( "To add icons to the pool, simply upload a .png, .jpeg or .gif image from your computer.", "wptouch" ); ?></p>
 				<p></p>
-				<p><?php echo sprintf( __( "Default icons generously provided by %sMarcelo Marfil%s.", "wptouch"), "<a href='http://marfil.me/' target='_blank'>", "</a>" ); ?></p>
+				<p><?php echo sprintf( __( "Default icons generously provided by %sMarcelo Marfil%s.", "wptouch"), "<a href='http://www.mmarfil.com/' target='_blank'>", "</a>" ); ?></p>
 
 				<h4><?php _e( "Logo/Bookmark Icons", "wptouch" ); ?></h4>
 				<p><?php _e( "If you're adding a logo icon, the best dimensions for it are 59x60px (png) when used as a bookmark icon.", "wptouch" ); ?></p>
-				<p><?php echo sprintf( __( "Need help? You can use %sthis easy online icon generator%s to make one.", "wptouch"), "<a href='http://www.flavorstudios.com/iphone-icon-generator' target='_blank'>", "</a>" ); ?></p>
+				<p><?php echo sprintf( __( "Need help? You can use %sthis easy online icon generator%s to make one.", "wptouch"), "<a href='http://wizardtoolkit.com/shooter/iPhone-Icon-Generator' target='_blank'>", "</a>" ); ?></p>
 				<p><?php echo sprintf( __( "These files will be stored in this folder we create: .../wp-content/uploads/wptouch/custom-icons", "wptouch"), '' . compat_get_wp_content_dir( 'wptouch' ). ''); ?></p>
 				<p><?php echo sprintf( __( "If an upload fails (usually it's a permission problem) check your wp-content path settings in WordPress' Miscellaneous Settings, or create the folder yourself using FTP and try again.", "wptouch"), "<strong>", "</strong>" ); ?></p>
 						

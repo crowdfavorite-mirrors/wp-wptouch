@@ -24,7 +24,7 @@ include( dirname(__FILE__) . '/../core/core-header.php' );
 <!--#start The Login Overlay -->
 	<div id="wptouch-login">
 		<div id="wptouch-login-inner">
-			<form name="loginform" id="loginform" action="<?php bloginfo('wpurl'); ?>/wp-login.php" method="post">
+			<form name="loginform" id="loginform" action="<?php site_url(); ?>/wp-login.php" method="post">
 				<label><input type="text" name="log" id="log" placeholder="<?php _e("Username", "wptouch"); ?>" tabindex="1" value="" /></label>
 				<label><input type="password" name="pwd" placeholder="<?php _e("Password", "wptouch"); ?>" tabindex="2" id="pwd" value="" /></label>
 				<input type="hidden" name="rememberme" value="forever" />
@@ -38,7 +38,7 @@ include( dirname(__FILE__) . '/../core/core-header.php' );
  <!-- #start The Search Overlay -->
 	<div id="wptouch-search"> 
  		<div id="wptouch-search-inner">
-			<form method="get" id="searchform" action="<?php bloginfo('url'); ?>/">
+			<form method="get" id="searchform" action="<?php echo home_url('/'); ?>/">
 				<input type="text" placeholder="<?php _e( "Search...", "wptouch" ); ?>" name="s" id="s" /> 
 				<input name="submit" type="submit" tabindex="1" id="search-submit" placeholder="<?php _e("Search...", "wptouch"); ?>"  />
 			<a href="javascript:return false;"><img class="head-close" src="<?php echo compat_get_plugin_url( 'wptouch' ); ?>/themes/core/core-images/head-close.png" alt="close" /></a>
@@ -50,7 +50,7 @@ include( dirname(__FILE__) . '/../core/core-header.php' );
         <div id="wptouch-menu-inner">
 	        <div id="menu-head">
 	        	<div id="tabnav">
-					<a href="#head-pages"><?php _e("Menu", "wptouch"); ?></a>
+					<a href="#head-pages"><?php _e("Pages", "wptouch"); ?></a>
 		        	<?php if (bnc_is_tags_button_enabled()) { wptouch_tags_link(); } ?>
 	    	    	<?php if (bnc_is_cats_button_enabled()) { wptouch_cats_link(); } ?>
 	    	    	<?php if (bnc_is_login_button_enabled()) { ?>
@@ -90,19 +90,19 @@ include( dirname(__FILE__) . '/../core/core-header.php' );
 							<br /><br />
 							<?php _e( "Not registered yet?", "wptouch"); ?>
 							<br />
-							<?php echo sprintf(__( "You can %ssign-up here%s.", "wptouch" ), '<a href="' . get_bloginfo('wpurl') . '/wp-register.php" target="_blank">','</a>'); ?>
+							<?php echo sprintf(__( "You can %ssign-up here%s.", "wptouch" ), '<a href="' . site_url() . '/wp-register.php" target="_blank">','</a>'); ?>
 						<?php endif; ?>
 				    </li>
 				<?php } else { ?>
 					<?php if (current_user_can('edit_posts')) : ?>
-					<li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/"><?php _e("Admin", "wptouch"); ?></a></li>
+					<li><a href="<?php site_url(); ?>/wp-admin/"><?php _e("Admin", "wptouch"); ?></a></li>
 					<?php endif; ?>
 					<?php if (get_option('comment_registration')) { ?>
-					<li><a href="<?php bloginfo('wpurl'); ?>/wp-register.php"><?php _e( "Register for this site", "wptouch" ); ?></a></li>
+					<li><a href="<?php site_url(); ?>/wp-register.php"><?php _e( "Register for this site", "wptouch" ); ?></a></li>
 					<?php } ?>
 					<?php if (is_user_logged_in()) { ?>
-					<li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/profile.php"><?php _e( "Account Profile", "wptouch" ); ?></a></li>
-					<li><a href="<?php $version = (float)get_bloginfo('version'); if ($version >= 2.7) { ?><?php echo wp_logout_url($_SERVER['REQUEST_URI']); } else { bloginfo('wpurl'); ?>/wp-login.php?action=logout&redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?><?php } ?>"><?php _e( "Logout", "wptouch" ); ?></a></li>
+					<li><a href="<?php site_url(); ?>/wp-admin/profile.php"><?php _e( "Account Profile", "wptouch" ); ?></a></li>
+					<li><a href="<?php $version = (float)get_bloginfo('version'); if ($version >= 2.7) { ?><?php echo wp_logout_url($_SERVER['REQUEST_URI']); } else { site_url(); ?>/wp-login.php?action=logout&redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?><?php } ?>"><?php _e( "Logout", "wptouch" ); ?></a></li>
 					<?php } ?>
 				<?php } ?>
 			</ul>
@@ -115,11 +115,11 @@ include( dirname(__FILE__) . '/../core/core-header.php' );
 <div id="headerbar">
 	<div id="headerbar-title">
 		<!-- This fetches the admin selection logo icon for the header, which is also the bookmark icon -->
-		<img id="logo-icon" src="<?php echo bnc_get_title_image(); ?>" alt="<?php $str = bnc_get_header_title(); echo stripslashes($str); ?>" />
-		<a href="<?php bloginfo('url'); ?>"><?php wptouch_core_body_sitetitle(); ?></a>
+		<a href="<?php echo home_url('/'); ?>"><img id="logo-icon" src="<?php echo bnc_get_title_image(); ?>" alt="<?php $str = bnc_get_header_title(); echo stripslashes($str); ?>" /></a>
+		<a href="<?php echo home_url('/'); ?>"><?php wptouch_core_body_sitetitle(); ?></a>
 	</div>
 	<div id="headerbar-menu">
-		    <a href="javascript:return false;"></a>
+		    <a href="javascript:return false;"><?php _e( 'Menu', 'wptouch' ); ?></a>
 	</div>
 </div>
 

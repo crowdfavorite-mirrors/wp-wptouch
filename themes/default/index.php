@@ -23,14 +23,6 @@
 		<div class="archive-top">
 			<div class="archive-top-right">
 				<?php if (bnc_excerpt_enabled()) { ?>
-				<script type="text/javascript">
-					$wpt(document).ready(function(){
-						$wpt("a#arrow-<?php the_ID(); ?>").bind( touchStartOrClick, function(e) {
-							$wpt(this).toggleClass("post-arrow-down");
-							$wpt('#entry-<?php the_ID(); ?>').wptouchFadeToggle(500);
-						});	
-					 });					
-				</script>
 					<a class="post-arrow" id="arrow-<?php the_ID(); ?>" href="javascript: return false;"></a>
 				<?php } ?>
 			</div> 
@@ -40,14 +32,6 @@
 		</div>
  	<?php } else { ?>	
 				<?php if (bnc_excerpt_enabled()) { ?>
-				<script type="text/javascript">
-					$wpt(document).ready(function(){
-						$wpt("a#arrow-<?php the_ID(); ?>").bind( touchStartOrClick, function(e) {
-							$wpt(this).toggleClass("post-arrow-down");
-							$wpt('#entry-<?php the_ID(); ?>').wptouchFadeToggle(500);
-						});	
-					 });					
-				</script>
 					<a class="post-arrow" id="arrow-<?php the_ID(); ?>" href="javascript: return false;"></a>
 				<?php } ?>
 				
