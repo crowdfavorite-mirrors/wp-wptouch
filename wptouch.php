@@ -2,8 +2,8 @@
 /*
 Plugin Name: WPtouch
 Plugin URI: http://wordpress.org/extend/plugins/wptouch/
-Version: 1.9.6.1
-Description: A plugin which formats your site with a mobile theme for visitors on Apple <a href="http://www.apple.com/iphone/">iPhone</a> / <a href="http://www.apple.com/ipodtouch/">iPod touch</a>, <a href="http://www.android.com/">Google Android</a>, <a href="http://www.blackberry.com/">Blackberry Storm and Torch</a>, <a href="http://www.palm.com/us/products/phones/pre/">Palm Pre</a> and other touch-based smartphones.
+Version: 1.9.6.3
+Description: The easy way to deliver great mobile experiences for your visitors.
 Author: BraveNewCode Inc.
 Author URI: http://www.bravenewcode.com
 Text Domain: wptouch
@@ -28,7 +28,7 @@ License: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/gpl.ht
 load_plugin_textdomain( 'wptouch', false, dirname( plugin_basename( __FILE__ ) ) );
 
 global $bnc_wptouch_version;
-$bnc_wptouch_version = '1.9.6.1';
+$bnc_wptouch_version = '1.9.6.3';
 
 require_once( 'include/plugin.php' );
 require_once( 'include/compat.php' );
@@ -55,7 +55,7 @@ $wptouch_defaults = array(
 	'enable-main-name' => true,
 	'enable-main-tags' => true,
 	'enable-main-categories' => true,
-	'enable-main-email' => true,
+	'enable-main-email' => false,
 	'enable-truncated-titles' => true,
 	'prowl-api' => '',
 	'enable-prowl-comments-button' => false,
