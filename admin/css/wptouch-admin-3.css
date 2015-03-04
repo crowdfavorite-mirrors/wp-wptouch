@@ -803,6 +803,7 @@ h3.popover-title {
 
 #wptouch-settings-area .radio-group {
 	clear: both;
+	margin-bottom: 25px;
 }
 
 #wptouch-settings-area .radio-group label {
@@ -829,6 +830,7 @@ h3.popover-title {
 	font-size: 100%;
 	height: auto;
 }
+
 
 #wptouch-settings-area textarea {
 	margin-top: 5px;

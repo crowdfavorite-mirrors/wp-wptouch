@@ -1,8 +1,8 @@
 === Plugin Name ===
 Contributors: bravenewcode, duanestorey, dalemugford, mkuplens
 Tags: wptouch, iphone, ipod, bravenewcode, mobile, android, blackberry, smartphone, responsive, design, mobile plugin, ios, mobile theme
-Requires at least: 3.6
-Stable tag: 3.6.6
+Requires at least: 3.8
+Stable tag: 3.7
 Tested up to: 4.1
 License: GPLv2
 
@@ -39,6 +39,12 @@ For more information visit [WPtouch.com](http://www.wptouch.com/?utm_campaign=wp
 11. WPtouch admin - Menu Setup
 
 == Changelog ==
+
+= Version 3.7 (February 25, 2015) =
+
+* Added: Overhauled support for shortcodes provided by desktop themes. WPtouch Pro can now optionally load content from WordPress with shortcodes processed. (Pro Only)
+* Fixed: Bug in URL-based filtering
+* Fixed: Possible hidden redirect exploit on mobile/desktop switcher
 
 = Version 3.6.6 (January 29, 2015) =
 

@@ -13,7 +13,7 @@
 			<?php } ?>
 
 			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) ) { ?>
-			<li><a href="//wptouch.freshdesk.com" target="_blank"><?php _e( 'Knowledgebase & Support', 'wptouch-pro' ); ?></a></li>
+			<li><a href="//support.wptouch.com" target="_blank"><?php _e( 'Knowledgebase & Support', 'wptouch-pro' ); ?></a></li>
 			<li><a href="//www.wptouch.com/account/" target="_blank"><?php _e( 'Manage Account & License', 'wptouch-pro' ); ?></a></li>
 			<?php } else { ?>
 			<li><a href="//wptouch.s3.amazonaws.com/docs/WPtouch%20User%20Guide.pdf"><?php _e( 'WPtouch User Guide', 'wptouch-pro' ); ?></a></li>
