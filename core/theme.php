@@ -263,6 +263,8 @@ function wptouch_the_mobile_switch_link() {
 function wptouch_get_mobile_switch_link() {
 	$settings = wptouch_get_settings();
 
+/*
+	TODO: Deprecated
 	switch( $settings->mobile_switch_link_target ) {
 		case 'current_page':
 			$link_target = $_SERVER['REQUEST_URI'];
@@ -274,6 +276,8 @@ function wptouch_get_mobile_switch_link() {
 			$link_target = '';
 			break;
 	}
+*/
+	$link_target = apply_filters( 'wptouch_mobile_switch_link_target', $_SERVER[ 'REQUEST_URI' ] );
 
 	$nonce = wp_create_nonce( 'wptouch_switch' );
 

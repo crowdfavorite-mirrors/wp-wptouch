@@ -185,17 +185,15 @@ class WPtouchProThree {
 			}
 		} else {
 			add_action( 'wp', array( &$this, 'set_cache_cookie' ) );
-
-			if ( $this->should_do_desktop_shortcode_magic( $settings ) ) {
-				add_filter( 'the_content', array( &$this, 'desktop_shortcode_magic' ), 50 );
-			}
 		}
 
+/*	TODO: Deprecated
 		// Set up debug log
 		if ( $settings->debug_log ) {
 			wptouch_debug_enable( true );
 			wptouch_debug_set_log_level( WPTOUCH_ALL );
 		}
+*/		wptouch_debug_enable( false );
 
 		add_filter( 'wptouch_available_icon_sets_post_sort', array( &$this, 'setup_custom_icons' ) );
 
@@ -221,6 +219,14 @@ class WPtouchProThree {
 
 		// This is where the main user-agent matching happens to determine module or non-mobile
 		$this->analyze_user_agent_string();
+
+		// Mobile content handler (delayed to allow device/display check)
+		if ( !is_admin() ) {
+			if ( $this->should_do_desktop_shortcode_magic( $settings ) && ( $this->is_mobile_device && $this->showing_mobile_theme ) ) {
+				remove_filter( 'the_content', 'wptexturize' );
+				add_filter( 'the_content', array( &$this, 'desktop_shortcode_magic' ), 99 );
+			}
+		}
 
 		// We have a mobile device, so WPtouch Pro could potentially cache it or allow another app to cache
 		if ( $this->is_mobile_device ) {
@@ -258,7 +264,8 @@ class WPtouchProThree {
 
 	function desktop_shortcode_magic( $content ) {
 		if ( $this->is_mobile_device && $this->showing_mobile_theme ) {
-			if ( is_singular() ) {
+			global $woocommerce;
+			if ( is_singular() && ( !is_object( $woocommerce ) || !( is_cart() || is_checkout() ) ) ) {
 				$should_regenerate = true;
 
 				$shortcode_data = get_post_meta( get_the_ID(), 'wptouch_sc_data', true );
@@ -279,19 +286,21 @@ class WPtouchProThree {
 					}
 				}
 
-				global $woocommerce;
 				if ( is_object( $woocommerce ) && ( is_cart() || is_checkout() || is_account_page() ) ) {
 					$should_regenerate = true;
 				}
 
 				if ( $should_regenerate ) {
 					$content = '<div class="wptouch-sc-content" data-post-id="' . get_the_ID() . '"></div><div style="display: none;" class="wptouch-orig-content">' . $content . '</div>';
+				} else {
+					$content = wptexturize( $content );
 				}
+
 			}
 
 			return $content;
 		} else {
-			return $content;
+			return wptexturize( $content );;
 		}
 	}
 
@@ -301,27 +310,29 @@ class WPtouchProThree {
 
 	function handle_desktop_shortcode() {
 		$post = get_post( $this->post[ 'post_id' ] );
+		$post_content = $this->post[ 'post_content' ];
+
 		if ( $post ) {
 			// Save data for later
 			$shortcode_data = new stdClass;
 
 			$pattern = get_shortcode_regex();
-			if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches ) ) {
+			if ( preg_match_all( '/'. $pattern .'/s', $post_content, $matches ) ) {
 				// Has a valid shortcode
 				$shortcode_data->has_desktop_shortcode = 1;
-
-				$content = apply_filters( 'the_content', $post->post_content );
-
-				$shortcode_data->valid_until = time() + 3600*24;
-				$shortcode_data->shortcode_content = $content;
-
-				echo $content;
 			} else {
 				// No valid shortcode
 				$shortcode_data->has_desktop_shortcode = 0;
-
-				echo 'WPTOUCH_NO_SHORTCODE';
 			}
+
+			// Prevent mobile content from overriding this
+			remove_action( 'the_content', 'wptouch_addon_the_content_mobile_content', 1 );
+			$content = apply_filters( 'the_content', $post_content );
+
+			$shortcode_data->valid_until = time() + 3600*24;
+			$shortcode_data->shortcode_content = $content;
+
+			echo $content;
 
 			update_post_meta( $this->post[ 'post_id' ], 'wptouch_sc_data', $shortcode_data );
 		}
@@ -793,14 +804,17 @@ class WPtouchProThree {
 		// We can have a mobile device detected, but not show the mobile theme
 		// usually this is a result of the user manually disabling it via a link in the footer
 		if ( $this->is_mobile_device ) {
+/*	TODO: Deprecated
 			if ( !isset( $_COOKIE[ WPTOUCH_COOKIE ] ) ) {
 				$this->showing_mobile_theme = !$settings->desktop_is_first_view;
 			} else {
 				$this->showing_mobile_theme = ( $_COOKIE[WPTOUCH_COOKIE] === 'mobile' );
 			}
+*/
+			$this->showing_mobile_theme = ( !isset( $_COOKIE[WPTOUCH_COOKIE] ) || $_COOKIE[WPTOUCH_COOKIE] === 'mobile' );
 
 			if ( $this->showing_mobile_theme ) {
-				if ( $settings->enable_url_filter && $settings->filtered_urls ) {
+				if ( $settings->url_filter_behaviour != 'disabled' && $settings->filtered_urls ) {
 					$server_url = strtolower( $_SERVER['REQUEST_URI'] );
 					$url_list = preg_split('/\R/', trim( strtolower( $settings->filtered_urls ) ) );
 					$block_mobile = false;
@@ -938,6 +952,10 @@ class WPtouchProThree {
 
 	function handle_activation() {
 		// activation hook
+		$site_root = get_home_path();
+		if ( file_exists( $site_root . 'robots.txt' ) ) {
+
+		}
 	}
 
 	function handle_deactivation() {
@@ -1953,9 +1971,11 @@ class WPtouchProThree {
 
 			if ( $use_lang_file ) {
 				$can_load = true;
+				/* TODO: Remove deprecated setting
 				if ( is_admin() && !$settings->translate_admin ) {
 					$can_load = false;
 				}
+				*/
 
 				if ( $can_load ) {
 					load_plugin_textdomain( 'wptouch-pro', false, $use_lang_rel_path );
@@ -2338,10 +2358,11 @@ class WPtouchProThree {
 			echo wptouch_capture_include_file( WPTOUCH_DIR . '/include/html/footer.php' );
 		}
 
+/*	TODO: Deprecated
 		if ( $settings->show_footer_load_times ) {
 			echo apply_filters( 'wptouch_footer_load_time', wptouch_capture_include_file( WPTOUCH_DIR . '/include/html/load-times.php' ) );
 		}
-
+*/
 		if ( $settings->custom_stats_code ) {
 			echo apply_filters( 'wptouch_custom_stats_code', $settings->custom_stats_code );
 		}
@@ -2677,15 +2698,6 @@ class WPtouchProThree {
 		$this->delete_theme_add_on_cache();
 
 		$new_settings = wptouch_get_settings();
-
-		if ( !$old_settings->add_referral_code && $new_settings->add_referral_code ) {
-			$bnc_settings = wptouch_get_settings( 'bncid' );
-			$bnc_settings->next_update_check_time = 0;
-			$bnc_settings->save();
-
-			$this->setup_bncapi();
-			wptouch_check_api();
-		}
 
 		if ( function_exists( 'wptouch_pro_update_site_info' ) && $update_info ) {
 			wptouch_pro_update_site_info();
