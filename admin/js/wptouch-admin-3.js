@@ -1,3 +1,9 @@
+// Let's see if we're in a *happy* browser : )
+function wptouchIsWebKit() {
+	// Only recent versions of WebKit browsers have this
+	return ( '-webkit-filter' in document.body.style );
+}
+
 function wptouchSetupAdminMenu(){
 	// Admin menu click handler
 	var adminMenuArea = jQuery( '#wptouch-admin-menu' );
@@ -82,6 +88,7 @@ function wptouchHandleLicensePanel() {
 						setTimeout( function(){
 							jQuery( success ).fadeIn();
 						}, 1000 );
+						setTimeout(function(){ window.location.href = '?page=wptouch-admin-touchboard'; }, 1250 );
 					} else if ( result == '2' ) {
 						// rejected license
 						wptouchProgressBarError( progressBar );
@@ -725,6 +732,18 @@ function wptouchSetupRadios() {
 		}
 	} ).trigger( 'change' );
 
+	// Core Settings: Filter URLs
+	jQuery( '#setting-url_filter_behaviour' ).find( 'input' ).on( 'change', function() {
+		switch( jQuery( '#setting-url_filter_behaviour input:checked' ).val() ) {
+			case 'disabled':
+				jQuery( '#setting-filtered_urls' ).hide();
+				break;
+			default:
+				jQuery( '#setting-filtered_urls' ).show();
+				break;
+		}
+	} ).trigger( 'change' );
+
 	// Core Settings: WPtouch Homepage
 	jQuery( '#setting-homepage_landing' ).find( 'input' ).on( 'change', function() {
 
@@ -860,12 +879,12 @@ function wptouchPreviewWindow(){
 
 	if ( wptouchIsWebKit() ) {
 		previewEl.on( 'click', function( e ) {
-			var width = '320', height = '568';
+			var width = '375', height = '667';
 			topPosition = ( screen.height ) ? ( screen.height - height ) / 2:0;
 			leftPosition = ( screen.width ) ? ( screen.width - width ) / 2:0;
 			options = 'scrollbars=no, titlebar=no, status=no, menubar=no';
 			previewUrl = jQuery( this ).attr( 'data-url' );
-			window.open( previewUrl, 'preview', 'width=320, height=568,' + options + ', top=' + topPosition + ',left=' + leftPosition + '' );
+			window.open( previewUrl, 'preview', 'width=375, height=667,' + options + ', top=' + topPosition + ',left=' + leftPosition + '' );
 			wptouchPreviewWindow = window.open( '', 'preview', '' );
 			jQuery.cookie( 'wptouch-preview-window', 'open' );
 			e.preventDefault();
@@ -905,6 +924,7 @@ function wptouchSetupColorPicker() {
 		});
 	}
 
+	jQuery( '.fdn-colors' ).find( '.dropdown, .wpbody-content, .wpbody' ).off();
 	jQuery( '.fdn-colors' ).find( '.dropdown' ).each( function() {
 		var thisSection = jQuery( this );
 		jQuery( this ).find( 'a.tabbed' ).click( function( e ) {
@@ -1128,8 +1148,8 @@ function wptouchLoadAddons() {
 			// No internet connection
 			if ( !navigator.onLine ) {
 				addonDiv.find( '.load' ).replaceWith( '<div class="not-available">' + WPtouchCustom.cloud_offline_message + '</div>' );
-			// looks like we're online
 			} else {
+				// looks like we're online
 				addonDiv.find( '.load' ).parent().replaceWith( result );
 
 				jQuery( '#setup-addons-browser' ).on( 'click', 'a.download, a.upgrade', function( e ) {

@@ -96,6 +96,7 @@ blockquote {
 	margin-right: auto !important;
 	float: none !important;
 	display: block !important;
+	max-width: 100%;
 }
 
 .alignleft {
@@ -396,25 +397,25 @@ to {
 
 /* @end */
 
-/* @group Advertising */
+/* @group Showcase */
 
-.wptouch-ad {
+.wptouch-showcase {
 	text-align: center;
 	min-height: 50px;
 	margin: 0 auto;
 	padding: 0;
 }
 
-.wptouch-ad.ad-location-header {
+.wptouch-showcase.showcase-location-header {
 	padding-top: 5px;
 }
 
-.post .wptouch-ad {
+.post .wptouch-showcase {
 	padding-bottom: 10px;
 	padding-top: 10px;
 }
 
-.wptouch-custom-ad {
+.wptouch-custom-showcase {
 	margin: 5px;
 	text-align: center;
 	display: block;
@@ -422,7 +423,7 @@ to {
 	height: auto;
 }
 
-.wptouch-custom-ad a, .wptouch-custom-ad img, .wptouch-custom-ad iframe * {
+.wptouch-custom-showcase a, .wptouch-custom-showcase img, .wptouch-custom-showcase iframe * {
 	max-width: 100%;
 	height: auto;
 }
@@ -1056,6 +1057,30 @@ form#commentform button#submit {
 	font-style: normal;
 	padding-right: 5px;
 }
+
+/* @end */
+
+/* @group Related Posts
+ */
+
+.related li {
+	min-height: 60px;
+}
+
+.related-posts ul li.no-excerpt {
+	height: 54px;
+	line-height: 54px; /* <-- this is what you must define */
+	vertical-align: middle;
+
+}
+
+.related-posts ul li.no-excerpt a {
+	width: 80%;
+	display: inline-block;
+	line-height: 120%;
+}
+
+
 
 /* @end */
 

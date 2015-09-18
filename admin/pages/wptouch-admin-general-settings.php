@@ -57,7 +57,7 @@ function wptouch_render_general_page( $page_options ) {
 			wptouchize_it( sprintf( __( 'Display %sPowered by WPtouch Pro%s in footer', 'wptouch-pro' ), '&quot;', '&quot;' ) ),
 			'',
 			WPTOUCH_SETTING_BASIC,
-			3.0
+			'3.0'
 		)
 	);
 
@@ -195,7 +195,7 @@ function wptouch_render_general_page( $page_options ) {
 				'3.0',
 				array(
 					'automatic' => __( 'Automatically inserted inline', 'wptouch-pro' ),
-					'ajax' => __( 'Automatically inserted with AJAX (better for caching)', 'wptouch-pro' ),
+					'ajax' => __( 'Automatically inserted with AJAX', 'wptouch-pro' ),
 					'template_tag' => __( 'Template tag', 'wptouch-pro' )
 				)
 			)
@@ -374,7 +374,7 @@ function wptouch_render_general_page( $page_options ) {
 		),
 		$page_options
 	);
-
+/* TODO: rip out any code related to these old settings!
 	wptouch_add_page_section(
 		WPTOUCH_ADMIN_SETUP_GENERAL,
 		__( 'JavaScript', 'wptouch-pro' ),
@@ -388,7 +388,7 @@ function wptouch_render_general_page( $page_options ) {
 				WPTOUCH_SETTING_ADVANCED,
 				'3.0'
 			),
-/*	TODO: Deprecated
+	TODO: Deprecated
 			wptouch_add_setting(
 				'checkbox',
 				'show_footer_load_times',
@@ -405,10 +405,10 @@ function wptouch_render_general_page( $page_options ) {
 				WPTOUCH_SETTING_ADVANCED,
 				'3.0'
 			),
-			wptouch_add_setting( 'debuginfo', 'debug-info', '', '', WPTOUCH_SETTING_ADVANCED, '3.0' )*/
+			wptouch_add_setting( 'debuginfo', 'debug-info', '', '', WPTOUCH_SETTING_ADVANCED, '3.0' )
 		),
 		$page_options
-	);
+	);*/
 
 	wptouch_add_page_section(
 		WPTOUCH_ADMIN_SETUP_GENERAL,

@@ -1,15 +1,28 @@
 Theme Name: Bauhaus
-Theme URI: http://www.bravenewcode.com/wptouch/
+Theme URI: http://www.wotouch.com/themes/
 Description: Clean, modern, functional design. Great for all types of WordPress sites.
-Version: 1.4.9
-Stable tag: 1.4.9
+Long Description: This is the longest description ever written!
+Version: 2.0b
+Stable tag: 2.0b
 Depends on: 3.7.3
 Author: BraveNewCode Inc.
-Parent: Foundation
+Framework: 2.0
 Tags: smartphone
 
+== Long Description ==
+
+
+
+== Screenshots ==
+
+1. http://wptouch-pro-3.s3.amazonaws.com/extras/releases/bauhaus/screenshots/screenshot-1.png
+2. http://wptouch-pro-3.s3.amazonaws.com/extras/releases/bauhaus/screenshots/screenshot-2.png
 
 == Changelog ==
+
+= Version 2.0b (August ?, 2015) =
+
+* Updated framework to version 2.0
 
 = Version 1.4.9 (June 2015) =
 
